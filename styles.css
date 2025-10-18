@@ -62,3 +62,13 @@ footer {
     flex-direction: column;
   }
 }
+
+.player-info {
+  display: flex;
+  align-items: center; /* vertically center content */
+  justify-content: space-between; /* place text on left, flag on right */
+}
+
+.flag {
+  font-size: 2rem;
+}
