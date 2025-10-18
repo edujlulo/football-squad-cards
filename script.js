@@ -27,9 +27,9 @@ const players = [
 
 const footballTeam = {
   team: "Barcelona FC",
-  year: "2010-2011",
+  year: 2010,
   headCoach: "Pep Guardiola",
-  players: players,
+  players,
 };
 
 const team = document.getElementById("team");
@@ -43,14 +43,43 @@ headCoach.textContent = footballTeam.headCoach;
 
 const playerCards = document.getElementById("player-cards");
 
-function captainMessage(p) {
-  return p.isCaptain ? "(Captain)" : "";
+const dropdownMenu = document.getElementById("players");
+
+function captainMessage(player) {
+  return player.isCaptain ? "(Captain)" : "";
 }
 
-footballTeam.players.forEach((p) => {
+dropdownMenu.addEventListener("change", filterPlayers);
+
+document.addEventListener("DOMContentLoaded", () =>
+  players.forEach(showPlayers)
+);
+
+function cleanHTML() {
+  playerCards.innerHTML = "";
+}
+
+function filterPlayers(opt) {
+  cleanHTML();
+
+  if (opt.target.value === "all") {
+    players.forEach(showPlayers);
+  } else {
+    const filteredPlayers = players.filter(
+      (p) => p.position === opt.target.value
+    );
+    filteredPlayers.forEach(showPlayers);
+  }
+}
+
+function showPlayers(player) {
   const playerCard = document.createElement("div");
   const name = document.createElement("h2");
-  name.textContent = `${captainMessage(p)} ` + p.name;
-  name.classList = "player-card";
-  playerCards.appendChild(name);
-});
+  name.textContent = captainMessage(player) + " " + player.name;
+  playerCard.classList.add("player-card");
+  const positionMessage = document.createElement("p");
+  positionMessage.innerText = "Position: " + `${player.position}`;
+  playerCards.appendChild(playerCard);
+  playerCard.appendChild(name);
+  playerCard.appendChild(positionMessage);
+}
